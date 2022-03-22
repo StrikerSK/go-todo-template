@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "62e14c77-1c70-4882-907b-675b1246b090",
+		"name": "Todo App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"ID\", pm.response.json().data)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Simplified Todo\",\n\t\"description\": \"Simplified todo\",\n\t\"subTasks\": [\n\t\t{\n\t\t\t\"name\": \"First\",\n\t\t\t\"description\": \"First\",\n\t\t\t\"done\": false\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Second\",\n\t\t\t\"description\": \"Second\",\n\t\t\t\"done\": false\n\t\t}\n\t],\n\t\"done\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST_URL}}/api/todo",
+					"host": [
+						"{{HOST_URL}}"
+					],
+					"path": [
+						"api",
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Name\": \"Create Todo\",\n\t\"Description\": \"Create toto\",\n\t\"SubTasks\": [\n\t\t{\n\t\t\t\"Name\": \"First\",\n\t\t\t\"Description\": \"First\",\n\t\t\t\"Done\": false\n\t\t},\n\t\t{\n\t\t\t\"Name\": \"Second\",\n\t\t\t\"Description\": \"Second\",\n\t\t\t\"Done\": false\n\t\t}\n\t],\n\t\"Done\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST_URL}}/api/todo/{{ID}}",
+					"host": [
+						"{{HOST_URL}}"
+					],
+					"path": [
+						"api",
+						"todo",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/todo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Simplified Todo\",\n\t\"description\": \"Simplified todo\",\n\t\"subTasks\": [\n\t\t{\n\t\t\t\"name\": \"Updated\",\n\t\t\t\"description\": \"Update\",\n\t\t\t\"done\": true\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Second\",\n\t\t\t\"description\": \"Second\",\n\t\t\t\"done\": false\n\t\t}\n\t],\n\t\"done\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST_URL}}/api/todo/{{ID}}",
+					"host": [
+						"{{HOST_URL}}"
+					],
+					"path": [
+						"api",
+						"todo",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST_URL",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "ID",
+			"value": ""
+		}
+	]
+}

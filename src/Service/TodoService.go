@@ -2,15 +2,25 @@ package Service
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/strikersk/go-mongo/src/Entity"
-	"github.com/strikersk/go-mongo/src/repository"
+	"github.com/strikersk/go-mongo/src/Repository"
 	"log"
 )
+
+func ReadTodo(c *fiber.Ctx) Entity.TodoStructure {
+	parameter := c.Params("id")
+	return Repository.ReadTodo(parameter)
+}
 
 func CreateTodo(c *fiber.Ctx) string {
 	var tmpTodo Entity.TodoStructure
 	_ = c.BodyParser(&tmpTodo)
-	return repository.CreateTodo(tmpTodo)
+
+	tmpTodo.Id = uuid.New().String()
+	_ = Repository.CreateTodo(tmpTodo)
+
+	return tmpTodo.Id
 }
 
 func UpdateTodo(c *fiber.Ctx) {
@@ -21,5 +31,9 @@ func UpdateTodo(c *fiber.Ctx) {
 	}
 
 	id := c.Params("id")
-	repository.UpdateTodo(id, tmpTodo)
+	Repository.UpdateTodo(id, tmpTodo)
+}
+
+func FindTasks() []Entity.TodoStructure {
+	return Repository.FindAll()
 }

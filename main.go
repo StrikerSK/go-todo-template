@@ -1,29 +1,41 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/strikersk/go-mongo/src/Repository"
 	"github.com/strikersk/go-mongo/src/Service"
-	"github.com/strikersk/go-mongo/src/repository"
 	"log"
+	"net/http"
+	"os"
 )
 
 func main() {
+	Repository.GetDatabaseInstance()
+
 	app := fiber.New()
 
-	app.Get("/api/:id", func(c *fiber.Ctx) error {
-		tmpPara := c.Params("id")
-		return c.JSON(repository.GetTodo(tmpPara))
+	todoPath := app.Group("/api/todo")
+
+	todoPath.Get("/:id", func(c *fiber.Ctx) error {
+		todo := Service.ReadTodo(c)
+		return c.JSON(todo)
 	})
 
-	app.Post("/api", func(c *fiber.Ctx) error {
+	todoPath.Get("", func(c *fiber.Ctx) error {
+		tasks := Service.FindTasks()
+		return c.JSON(tasks)
+	})
+
+	todoPath.Post("", func(c *fiber.Ctx) error {
 		tmpOut := Service.CreateTodo(c)
-		return c.Send([]byte(tmpOut))
+		return c.JSON(map[string]string{"data": tmpOut})
 	})
 
-	app.Put("/api/:id", func(c *fiber.Ctx) error {
+	todoPath.Put("/:id", func(c *fiber.Ctx) error {
 		Service.UpdateTodo(c)
-		return c.Send([]byte("Updated"))
+		return c.SendStatus(http.StatusOK)
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(fmt.Sprintf(":%s", os.Getenv("PORT"))))
 }
