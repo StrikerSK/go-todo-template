@@ -30,8 +30,8 @@ func UpdateTodo(c *fiber.Ctx) {
 		log.Printf("%v\n", err)
 	}
 
-	id := c.Params("id")
-	Repository.UpdateTodo(id, tmpTodo)
+	tmpTodo.Id = c.Params("id")
+	Repository.UpdateTodo(tmpTodo)
 }
 
 func FindTasks() []Entity.TodoStructure {

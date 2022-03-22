@@ -36,8 +36,8 @@ func CreateTodo(inputTask Entity.TodoStructure) (err error) {
 	return
 }
 
-func UpdateTodo(ID string, inputTask Entity.TodoStructure) {
-	_, err := GetCollection().ReplaceOne(context.Background(), bson.M{"id": ID}, inputTask)
+func UpdateTodo(inputTask Entity.TodoStructure) {
+	_, err := GetCollection().ReplaceOne(context.Background(), bson.M{"id": inputTask.Id}, inputTask)
 	if err != nil {
 		log.Printf("%v", err)
 	}
