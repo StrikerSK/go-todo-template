@@ -1,46 +1,76 @@
 package Repository
 
 import (
-	"context"
 	"github.com/strikersk/go-mongo/src/Entity"
-	"go.mongodb.org/mongo-driver/bson"
 	"log"
 )
 
-func ReadTodo(ID string) (outputResult Entity.TodoStructure) {
-	tmpResult := GetCollection().FindOne(context.Background(), bson.M{"id": ID})
-	_ = tmpResult.Decode(&outputResult)
+type LocalTodoRepository struct{}
+
+func SetLocalRepository() {
+	SetMainRepository(&LocalTodoRepository{})
+}
+
+func (r *LocalTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoStructure, err error) {
+	log.Printf("User provided ID to read: %s\n", ID)
+	return Entity.TodoStructure{
+		Id: "123",
+		TaskCore: Entity.TaskCore{
+			Name:        "MainTask",
+			Description: "This represents main task",
+			Done:        false,
+		},
+		SubTasks: []Entity.TaskCore{
+			{
+				Name:        "SubTask1",
+				Description: "This should be sub task 1",
+				Done:        false,
+			},
+			{
+				Name:        "SubTask2",
+				Description: "This should be sub task 2",
+				Done:        false,
+			},
+		},
+	}, nil
+}
+
+func (r *LocalTodoRepository) FindAll() []Entity.TodoStructure {
+	return []Entity.TodoStructure{
+		{
+			Id: "123",
+			TaskCore: Entity.TaskCore{
+				Name:        "MainTask",
+				Description: "This represents main task",
+				Done:        false,
+			},
+			SubTasks: []Entity.TaskCore{
+				{
+					Name:        "SubTask1",
+					Description: "This should be sub task 1",
+					Done:        false,
+				},
+				{
+					Name:        "SubTask2",
+					Description: "This should be sub task 2",
+					Done:        false,
+				},
+			},
+		},
+	}
+}
+
+func (r *LocalTodoRepository) CreateTodo(inputTask Entity.TodoStructure) (err error) {
+	log.Println("User provide new Task input: ", inputTask)
 	return
 }
 
-func FindAll() []Entity.TodoStructure {
-	outputTasks := make([]Entity.TodoStructure, 0)
-	tmpResult, err := GetCollection().Find(context.Background(), bson.D{})
-	if err != nil {
-		log.Printf("%v\n", err)
-	}
-
-	for tmpResult.Next(context.Background()) {
-		var tmp Entity.TodoStructure
-		if err = tmpResult.Decode(&tmp); err != nil {
-			log.Printf("%v\n", err)
-		}
-		outputTasks = append(outputTasks, tmp)
-	}
-
-	return outputTasks
-}
-
-func CreateTodo(inputTask Entity.TodoStructure) (err error) {
-	_, err = GetCollection().InsertOne(context.Background(), inputTask)
+func (r *LocalTodoRepository) UpdateTodo(inputTask Entity.TodoStructure) (err error) {
+	log.Println("User provide updated Task input for ID [", inputTask.Id, "]: ", inputTask)
 	return
 }
 
-func UpdateTodo(inputTask Entity.TodoStructure) {
-	_, err := GetCollection().ReplaceOne(context.Background(), bson.M{"id": inputTask.Id}, inputTask)
-	if err != nil {
-		log.Printf("%v", err)
-	}
-
-	return
+func (r *LocalTodoRepository) DeleteTodo(ID string) (err error) {
+	log.Printf("User provided ID to delete: %s\n", ID)
+	return nil
 }

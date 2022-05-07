@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	Repository.GetDatabaseInstance()
+	Repository.SetLocalRepository()
 
 	app := fiber.New()
 

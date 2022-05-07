@@ -10,7 +10,13 @@ import (
 
 func ReadTodo(c *fiber.Ctx) Entity.TodoStructure {
 	parameter := c.Params("id")
-	return Repository.ReadTodo(parameter)
+
+	todo, err := Repository.GetRepository().ReadTodo(parameter)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return todo
 }
 
 func CreateTodo(c *fiber.Ctx) string {
@@ -18,7 +24,7 @@ func CreateTodo(c *fiber.Ctx) string {
 	_ = c.BodyParser(&tmpTodo)
 
 	tmpTodo.Id = uuid.New().String()
-	_ = Repository.CreateTodo(tmpTodo)
+	_ = Repository.GetRepository().CreateTodo(tmpTodo)
 
 	return tmpTodo.Id
 }
@@ -31,9 +37,9 @@ func UpdateTodo(c *fiber.Ctx) {
 	}
 
 	tmpTodo.Id = c.Params("id")
-	Repository.UpdateTodo(tmpTodo)
+	_ = Repository.GetRepository().UpdateTodo(tmpTodo)
 }
 
 func FindTasks() []Entity.TodoStructure {
-	return Repository.FindAll()
+	return Repository.GetRepository().FindAll()
 }

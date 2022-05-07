@@ -80,12 +80,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/todo",
-					"protocol": "http",
+					"raw": "{{HOST_URL}}/api/todo",
 					"host": [
-						"localhost"
+						"{{HOST_URL}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"todo"
