@@ -1,10 +1,10 @@
-# GO Mongo
-Simplistic template of basic Task Managing Application using [MongoDB](https://docs.mongodb.com/drivers/go/v1.7/) and [Fiber](https://docs.gofiber.io/). Please consider using `TestAppPostman.json` file for inspiration.
+# GO Todo Templater
+Simplistic template of basic Task Managing Application where you can configure your repository. To make work you need to implement 
+`ITodoRepository` interface and assign to repository variable `mainRepository`. See `TodoRepository.go` file for inspiration. 
+Created using [Fiber](https://docs.gofiber.io/). Please consider using `TestAppPostman.json` file for inspiration.
 
 ## Important configurations
 - `PORT` - Port on which application will be listening of requests
-- `DB_HOST` - URL to reach Mongo instance, e.g. mongodb://root:example@localhost:27017/?maxPoolSize=20&w=majority
-  var
 
 ## Endpoints
 - `POST /api/todo` - To create new TODO
