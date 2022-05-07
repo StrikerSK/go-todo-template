@@ -119,6 +119,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete Task",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Simplified Todo\",\n\t\"description\": \"Simplified todo\",\n\t\"subTasks\": [\n\t\t{\n\t\t\t\"name\": \"Updated\",\n\t\t\t\"description\": \"Update\",\n\t\t\t\"done\": true\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Second\",\n\t\t\t\"description\": \"Second\",\n\t\t\t\"done\": false\n\t\t}\n\t],\n\t\"done\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST_URL}}/api/todo/{{ID}}",
+					"host": [
+						"{{HOST_URL}}"
+					],
+					"path": [
+						"api",
+						"todo",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

@@ -1,4 +1,4 @@
-module github.com/strikersk/go-mongo
+module github.com/strikersk/go-todo-template
 
 go 1.17
 

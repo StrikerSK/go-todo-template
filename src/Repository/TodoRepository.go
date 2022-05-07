@@ -1,7 +1,7 @@
 package Repository
 
 import (
-	"github.com/strikersk/go-mongo/src/Entity"
+	"github.com/strikersk/go-todo-template/src/Entity"
 	"log"
 )
 

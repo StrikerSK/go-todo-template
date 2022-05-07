@@ -1,4 +1,4 @@
-# GO Todo Templater
+# GO Todo Template
 Simplistic template of basic Task Managing Application where you can configure your repository. To make work you need to implement 
 `ITodoRepository` interface and assign to repository variable `mainRepository`. See `TodoRepository.go` file for inspiration. 
 Created using [Fiber](https://docs.gofiber.io/). Please consider using `TestAppPostman.json` file for inspiration.
