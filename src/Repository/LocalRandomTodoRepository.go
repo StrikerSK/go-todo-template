@@ -4,6 +4,8 @@ import (
 	"github.com/jaswdr/faker"
 	"github.com/strikersk/go-todo-template/src/Entity"
 	"log"
+	"math/rand"
+	"time"
 )
 
 type LocalTodoRepository struct {
@@ -17,55 +19,20 @@ func NewLocalTodoRepository() LocalTodoRepository {
 }
 
 func (r *LocalTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoEntity, err error) {
-	petOne := r.faker.Pet().Name()
-	petTwo := r.faker.Pet().Name()
-
 	log.Printf("User provided ID to read: %s\n", ID)
-	return Entity.TodoEntity{
-		Id: ID,
-		TaskCore: Entity.TaskCore{
-			Name:        r.faker.Person().FirstName(),
-			Description: r.faker.Person().LastName(),
-			Done:        r.faker.Bool(),
-		},
-		SubTasks: []Entity.TaskCore{
-			{
-				Name:        petOne,
-				Description: petOne,
-				Done:        r.faker.Bool(),
-			},
-			{
-				Name:        petTwo,
-				Description: petTwo,
-				Done:        r.faker.Bool(),
-			},
-		},
-	}, nil
+	return r.generateTodo(ID), nil
 }
 
 func (r *LocalTodoRepository) FindAll() []Entity.TodoEntity {
-	return []Entity.TodoEntity{
-		{
-			Id: "123",
-			TaskCore: Entity.TaskCore{
-				Name:        "MainTask",
-				Description: "This represents main task",
-				Done:        false,
-			},
-			SubTasks: []Entity.TaskCore{
-				{
-					Name:        "SubTask1",
-					Description: "This should be sub task 1",
-					Done:        false,
-				},
-				{
-					Name:        "SubTask2",
-					Description: "This should be sub task 2",
-					Done:        false,
-				},
-			},
-		},
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1).Intn(10)
+
+	var subTasks []Entity.TodoEntity
+	for i := 0; i < r1; i++ {
+		subTasks = append(subTasks, r.generateTodo(r.faker.UUID().V4()))
 	}
+
+	return subTasks
 }
 
 func (r *LocalTodoRepository) CreateTodo(inputTask Entity.TodoEntity) (err error) {
@@ -81,4 +48,28 @@ func (r *LocalTodoRepository) UpdateTodo(inputTask Entity.TodoEntity) (err error
 func (r *LocalTodoRepository) DeleteTodo(ID string) (err error) {
 	log.Printf("User provided ID to delete: %s\n", ID)
 	return nil
+}
+
+func (r *LocalTodoRepository) generateTask() Entity.TaskCore {
+	return Entity.TaskCore{
+		Name:        r.faker.Person().FirstName(),
+		Description: r.faker.Person().LastName(),
+		Done:        r.faker.Bool(),
+	}
+}
+
+func (r *LocalTodoRepository) generateTodo(id string) Entity.TodoEntity {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1).Intn(10)
+
+	var subTasks []Entity.TaskCore
+	for i := 0; i < r1; i++ {
+		subTasks = append(subTasks, r.generateTask())
+	}
+
+	return Entity.TodoEntity{
+		Id:       id,
+		TaskCore: r.generateTask(),
+		SubTasks: subTasks,
+	}
 }

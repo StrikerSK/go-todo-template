@@ -12,7 +12,7 @@ import (
 func main() {
 	app := fiber.New()
 
-	repository := Repository.NewLocalTodoRepository()
+	repository := Repository.NewLocalConsoleTodoRepository()
 	service := Service.NewTodoService(&repository)
 	handler := Handler.NewTodoHandler(service)
 
