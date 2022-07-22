@@ -1,42 +1,50 @@
 package Repository
 
 import (
+	"github.com/jaswdr/faker"
 	"github.com/strikersk/go-todo-template/src/Entity"
 	"log"
 )
 
-type LocalTodoRepository struct{}
-
-func SetLocalRepository() {
-	SetMainRepository(&LocalTodoRepository{})
+type LocalTodoRepository struct {
+	faker faker.Faker
 }
 
-func (r *LocalTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoStructure, err error) {
+func NewLocalTodoRepository() LocalTodoRepository {
+	return LocalTodoRepository{
+		faker: faker.New(),
+	}
+}
+
+func (r *LocalTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoEntity, err error) {
+	petOne := r.faker.Pet().Name()
+	petTwo := r.faker.Pet().Name()
+
 	log.Printf("User provided ID to read: %s\n", ID)
-	return Entity.TodoStructure{
-		Id: "123",
+	return Entity.TodoEntity{
+		Id: ID,
 		TaskCore: Entity.TaskCore{
-			Name:        "MainTask",
-			Description: "This represents main task",
-			Done:        false,
+			Name:        r.faker.Person().FirstName(),
+			Description: r.faker.Person().LastName(),
+			Done:        r.faker.Bool(),
 		},
 		SubTasks: []Entity.TaskCore{
 			{
-				Name:        "SubTask1",
-				Description: "This should be sub task 1",
-				Done:        false,
+				Name:        petOne,
+				Description: petOne,
+				Done:        r.faker.Bool(),
 			},
 			{
-				Name:        "SubTask2",
-				Description: "This should be sub task 2",
-				Done:        false,
+				Name:        petTwo,
+				Description: petTwo,
+				Done:        r.faker.Bool(),
 			},
 		},
 	}, nil
 }
 
-func (r *LocalTodoRepository) FindAll() []Entity.TodoStructure {
-	return []Entity.TodoStructure{
+func (r *LocalTodoRepository) FindAll() []Entity.TodoEntity {
+	return []Entity.TodoEntity{
 		{
 			Id: "123",
 			TaskCore: Entity.TaskCore{
@@ -60,12 +68,12 @@ func (r *LocalTodoRepository) FindAll() []Entity.TodoStructure {
 	}
 }
 
-func (r *LocalTodoRepository) CreateTodo(inputTask Entity.TodoStructure) (err error) {
+func (r *LocalTodoRepository) CreateTodo(inputTask Entity.TodoEntity) (err error) {
 	log.Println("User provide new Task input: ", inputTask)
 	return
 }
 
-func (r *LocalTodoRepository) UpdateTodo(inputTask Entity.TodoStructure) (err error) {
+func (r *LocalTodoRepository) UpdateTodo(inputTask Entity.TodoEntity) (err error) {
 	log.Println("User provide updated Task input for ID [", inputTask.Id, "]: ", inputTask)
 	return
 }

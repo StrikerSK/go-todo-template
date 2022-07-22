@@ -6,7 +6,7 @@ type TaskCore struct {
 	Done        bool   `bson:"done" json:"done"`
 }
 
-type TodoStructure struct {
+type TodoEntity struct {
 	Id       string `bson:"id" json:"id"`
 	TaskCore `bson:"inline"`
 	SubTasks []TaskCore `bson:"subTasks" json:"subTasks"`
