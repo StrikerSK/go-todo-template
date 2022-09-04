@@ -5,15 +5,15 @@ import (
 	"log"
 )
 
-type LocalTodoRepository struct{}
+type LocalConsoleTodoRepository struct{}
 
-func SetLocalRepository() {
-	SetMainRepository(&LocalTodoRepository{})
+func NewLocalConsoleTodoRepository() LocalConsoleTodoRepository {
+	return LocalConsoleTodoRepository{}
 }
 
-func (r *LocalTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoStructure, err error) {
+func (r *LocalConsoleTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoEntity, err error) {
 	log.Printf("User provided ID to read: %s\n", ID)
-	return Entity.TodoStructure{
+	return Entity.TodoEntity{
 		Id: "123",
 		TaskCore: Entity.TaskCore{
 			Name:        "MainTask",
@@ -35,8 +35,8 @@ func (r *LocalTodoRepository) ReadTodo(ID string) (outputResult Entity.TodoStruc
 	}, nil
 }
 
-func (r *LocalTodoRepository) FindAll() []Entity.TodoStructure {
-	return []Entity.TodoStructure{
+func (r *LocalConsoleTodoRepository) FindAll() []Entity.TodoEntity {
+	return []Entity.TodoEntity{
 		{
 			Id: "123",
 			TaskCore: Entity.TaskCore{
@@ -60,17 +60,17 @@ func (r *LocalTodoRepository) FindAll() []Entity.TodoStructure {
 	}
 }
 
-func (r *LocalTodoRepository) CreateTodo(inputTask Entity.TodoStructure) (err error) {
+func (r *LocalConsoleTodoRepository) CreateTodo(inputTask Entity.TodoEntity) (err error) {
 	log.Println("User provide new Task input: ", inputTask)
 	return
 }
 
-func (r *LocalTodoRepository) UpdateTodo(inputTask Entity.TodoStructure) (err error) {
+func (r *LocalConsoleTodoRepository) UpdateTodo(inputTask Entity.TodoEntity) (err error) {
 	log.Println("User provide updated Task input for ID [", inputTask.Id, "]: ", inputTask)
 	return
 }
 
-func (r *LocalTodoRepository) DeleteTodo(ID string) (err error) {
+func (r *LocalConsoleTodoRepository) DeleteTodo(ID string) (err error) {
 	log.Printf("User provided ID to delete: %s\n", ID)
 	return nil
 }

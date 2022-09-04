@@ -5,20 +5,21 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/strikersk/go-todo-template/src/Repository"
 	"github.com/strikersk/go-todo-template/src/Service"
+	Handler "github.com/strikersk/go-todo-template/src/handler"
 	"log"
 )
 
 func main() {
-	Repository.SetLocalRepository()
-
 	app := fiber.New()
 
-	todoPath := app.Group("/api/todo")
-	todoPath.Get("/:id", Service.ReadTodo)
-	todoPath.Get("", Service.FindTasks)
-	todoPath.Post("", Service.CreateTodo)
-	todoPath.Put("/:id", Service.UpdateTodo)
-	todoPath.Delete("/:id", Service.DeleteTodo)
+	repository := Repository.NewLocalConsoleTodoRepository()
+	service := Service.NewTodoService(&repository)
+	handler := Handler.NewTodoHandler(service)
 
-	log.Fatal(app.Listen(fmt.Sprintf(":8080")))
+	handler.EnrichRouter(app)
+
+	err := app.Listen(fmt.Sprintf(":8080"))
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
